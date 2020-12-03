@@ -1,0 +1,4 @@
+github.com/xhit/go-simple-mail v1.0.0 h1:sLvCv2srAOeKnEPY3pzACtcjOjHHwwPdMcdMNRnMkRA=
+github.com/xhit/go-simple-mail v2.2.2+incompatible h1:Hm2VGfLqiQJ/NnC8SYsrPOPyVYIlvP2kmnotP4RIV74=
+github.com/xhit/go-simple-mail/v2 v2.5.1 h1:G4ffh8LvCiFVMiGxz7Og83ppUVkqX3IH9+YwkAd2DOA=
+github.com/xhit/go-simple-mail/v2 v2.5.1/go.mod h1:kA1XbQfCI4JxQ9ccSN6VFyIEkkugOm7YiPkA5hKiQn4=
