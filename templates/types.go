@@ -1,13 +1,25 @@
 package templates
 
 import (
-	"io"
+	"errors"
+	"net/http"
 	"time"
 )
 
+var (
+	ErrNotFound = errors.New("template not found")
+)
+
 type (
+	TemplateResult struct {
+		HTML    []byte
+		TXT     []byte
+		Subject string
+	}
+
 	Templates interface {
-		GenerateTXT(lang, email, token string, expiration time.Time) (io.Reader, error)
-		GenerateHTML(lang, email, token string, expiration time.Time) (io.Reader, error)
+		Generate(email, url string, expiration time.Time) (*TemplateResult, error)
+		GenerateForLang(lang string, email, url string, expiration time.Time) (*TemplateResult, error)
+		GenerateForRequest(r *http.Request, email, url string, expiration time.Time) (*TemplateResult, error)
 	}
 )

@@ -1,9 +1,8 @@
+// Package smtp allow the sending of email message using the SMTP protocol.
 package smtp
 
 import (
 	"crypto/tls"
-	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"time"
@@ -22,7 +21,6 @@ type (
 		Password   string
 		Encryption encryption
 		Auth       auth
-		Sender     string
 		From       string
 		TimeOut    time.Duration
 		TLSConfig  *tls.Config
@@ -31,7 +29,6 @@ type (
 
 	SMTP struct {
 		client *mail.SMTPClient
-		sender string
 		from   string
 		log    *log.Logger
 	}
@@ -88,7 +85,6 @@ func NewSMTP(params Params) (*SMTP, error) {
 
 	res := &SMTP{
 		client: client,
-		sender: params.Sender,
 		from:   params.From,
 		log:    params.Logger,
 	}
@@ -100,38 +96,21 @@ func NewSMTP(params Params) (*SMTP, error) {
 	return res, nil
 }
 
-func (s SMTP) Send(address, subject string, txt io.Reader, html io.Reader) error {
+func (s SMTP) Send(address, subject string, txt, html []byte) error {
 	email := mail.NewMSG()
 	email.AddTo(address)
-	if s.from != "" {
-		email.SetFrom(s.from)
-	}
-	email.SetSender(s.sender)
+	email.SetFrom(s.from)
+
 	email.SetSubject(subject)
 
 	if html != nil {
-		body, err := ioutil.ReadAll(html)
-		if err != nil {
-			s.log.Printf("error while reading html body: '%s'", err)
-			return err
-		}
-		email.SetBody(mail.TextHTML, string(body))
+		email.SetBody(mail.TextHTML, string(html))
 
 		if txt != nil {
-			body, err := ioutil.ReadAll(txt)
-			if err != nil {
-				s.log.Printf("error while reading text body: '%s'", err)
-				return err
-			}
-			email.AddAlternative(mail.TextPlain, string(body))
+			email.AddAlternative(mail.TextPlain, string(txt))
 		}
 	} else {
-		body, err := ioutil.ReadAll(txt)
-		if err != nil {
-			s.log.Printf("error while reading text body: '%s'", err)
-			return err
-		}
-		email.SetBody(mail.TextPlain, string(body))
+		email.SetBody(mail.TextPlain, string(txt))
 	}
 
 	if err := email.Send(s.client); err != nil {

@@ -2,7 +2,12 @@ package generator
 
 import (
 	"context"
+	"errors"
 	"time"
+)
+
+var (
+	ErrInvalid = errors.New("token expired, not found or invalid")
 )
 
 type (
