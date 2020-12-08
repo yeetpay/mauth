@@ -1,2 +1,2 @@
 # mauth
-Message Auth is a password less authentication and service
+Message Auth is a password less authentication library and service
