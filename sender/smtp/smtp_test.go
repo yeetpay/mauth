@@ -50,6 +50,7 @@ func (s *SMTPSuite) SetupTest() {
 
 func (s *SMTPSuite) TestSendHTML() {
 	err := s.sender.Send(
+		nil,
 		s.destAddr,
 		s.subject,
 		nil,
@@ -59,6 +60,7 @@ func (s *SMTPSuite) TestSendHTML() {
 
 func (s *SMTPSuite) TestSendText() {
 	err := s.sender.Send(
+		nil,
 		s.destAddr,
 		s.subject,
 		textBody,
@@ -68,6 +70,7 @@ func (s *SMTPSuite) TestSendText() {
 
 func (s *SMTPSuite) TestSendHTMLAndText() {
 	err := s.sender.Send(
+		nil,
 		s.destAddr,
 		s.subject,
 		textBody,

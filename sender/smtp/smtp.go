@@ -2,6 +2,7 @@
 package smtp
 
 import (
+	"context"
 	"crypto/tls"
 	"log"
 	"os"
@@ -96,7 +97,7 @@ func NewSMTP(params Params) (*SMTP, error) {
 	return res, nil
 }
 
-func (s SMTP) Send(address, subject string, txt, html []byte) error {
+func (s SMTP) Send(ctx context.Context, address, subject string, txt, html []byte) error {
 	email := mail.NewMSG()
 	email.AddTo(address)
 	email.SetFrom(s.from)
